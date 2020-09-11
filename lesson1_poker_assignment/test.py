@@ -24,3 +24,4 @@ for card in map(replacements, ["2C", "?B", "?R"]):
 
 for h in itertools.product(*map(replacements, ["2C", "?B", "?R"])):
     print(h)
+
