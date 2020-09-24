@@ -34,7 +34,7 @@ def grow(text, start, end):
     return(start, end)
 
 def test():
-    L = longest_subpalindrome_slice
+    L = longest_subpalindrome_slice # function assignment
     assert L('racecar') == (0, 7)
     assert L('Racecar') == (0, 7)
     assert L('RacecarX') == (0, 7)

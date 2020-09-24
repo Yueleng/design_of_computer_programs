@@ -1,5 +1,6 @@
 def sq(x): print('sq called ' +  str(x)); return x * x
 
+# (.. for .. (if)..)  <= generator expression
 g = (sq(x) for x in range(10) if x % 2 == 0)
 print(g)
 
