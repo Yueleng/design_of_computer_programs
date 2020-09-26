@@ -22,6 +22,19 @@ def test_search():
                 for s in 'crab cb across scab'.split())
     return 'test_search passes'
 
+def matchset_test():
+    assert matchset(('lit', 'abc'), 'abcdef') == set(['def'])
+    assert matchset(('seq', ('lit', 'hi '), ('lit', 'there ')),
+                    'hi there nice to meet you') == set(['nice to meet you'])
+    assert matchset(('alt', ('lit', 'dog'), ('lit', 'cat')), 'dog and cat') == set([' and cat'])
+    assert matchset(('dot',), 'am i missing something?') == set(['m i missing something?'])
+    assert matchset(('oneof', 'a'), 'aabc123')           == set(['abc123'])
+    assert matchset(('eol',),'')                         == set([''])
+    assert matchset(('eol',),'not end of line')          == frozenset([])
+    assert matchset(('star', ('lit', 'hey')), 'heyhey!') == set(['!', 'heyhey!', 'hey!'])
+    return 'tests pass'
+
+
 # intepretor vs compiler
 # return remainders set
 null = frozenset()
@@ -96,5 +109,5 @@ dot = ('dot',)
 eol = ('eol',)
 
 
-
+print(matchset_test())
 print(test_search())
