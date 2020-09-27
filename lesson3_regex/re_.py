@@ -1,3 +1,4 @@
+# File 1
 import re
 
 def search(pattern, text):
@@ -82,74 +83,6 @@ print(test())
 
 
 
-
-# # -- Compiler
-# def lit(s): return lambda t: set([t[len(s):]]) if t.startswith(s) else null
-# def seq(x, y): return lambda t: set().union(*map(y, x(t)))
-# # def alt(x, y): return lambda text: set().union(x(text)).union(y(text))
-# def alt(x, y): return lambda t: x(t) | y(t)
-# def oneof(chars): return lambda t: set([t[1:]]) if (t and t[0] in chars) else null
-# dot = lambda t: set(t[1:]) if t else null
-# eol = lambda t: set(['']) if t == '' else null
-# def star(x): return lambda t: (set([t]) | 
-#                                set(t2 for t1 in x(t) if t1 != t for t2 in star(x)(t1) ))
-
-# def match(pattern, text):
-#     "Match pattern against start of text; return longest match found or None"
-#     remainders = pattern(text)
-#     if remainders:
-#         shortest = min(remainders, key=len)
-#         return text[:len(text) - len(shortest)]
-
-
-
-
-
-# def genseq(x, y, Ns):
-#     Nss = range(max(Ns) + 1)
-#     return set(m1 + m2
-#                 for m1 in x(Nss) for m2 in y(Nss)
-#                 if len(m1 + m2) in Ns)
-
-
-
-
-
-# from functools import update_wrapper
-
-# def decorator(d):
-#     "Make function d a decorator: d wraps a function fn."
-#     def _d(fn):
-#         return update_wrapper(d(fn), fn)
-#     update_wrapper(_d, d)
-#     return _d
-
-# @decorator
-# def n_ary(f):
-#     """Given binary function f(x,y), return an n_ary(f) such that f(x,y,z) = f(x,f(y,z)), etc. Also allow f(x) = x"""
-#     def n_ary_f(x, *args):
-#         # if len(args) == 0:
-#         #     return f(x)
-#         # elif len(args) == 1:
-#         #     return f(x, args[0])
-#         # else:
-#         #     return n_ary_f(n_ary_f(x, args[0]),*args[1:])
-#         return x if not args else f(x, n_ary_f(*args))
-#     # update_wrapper(n_ary, f)
-#     return n_ary_f
-
-# @n_ary
-# def seq(x, y): return ('seq', x, y)
-# seq = n_ary(seq)
-
-
-# # Decorator equivalence
-# def decorator(d):
-#     return lambda fn: update_wrapper(d(fn), fn)
-
-# decorator = decorator(decorator)
-
-
 # @decorator
 # def memo(f):
 #     """
@@ -193,52 +126,15 @@ print(test())
 # def fib(n): return 1 if n <= 1 else fib(n-1) + fib(n-2)
 
 
-# # -- write a decorator for 
-# @decorator
-# def trace(f):
-#     indent = '   '
-#     def _f(*args):
-#         signature = '%s(%s)' % (f.__name__, ', '.join(map(repr, args)))
-#         print('%s--> %s' % (trace.level*indent, signature))
-#         trace.level += 1
-#         try:
-#             result = f(*args)
-#             print('%s--> %s === %s' % ( (trace.level - 1)* indent, signature, result))
-#         finally:
-#             trace.level -= 1
-#         return result
-#     trace.level = 0
-#     return _f
 
 
-# # Descriptionary
-# G = grammar(r"""
-# Exp => Term [+-] Exp | Term
-# Term => Factor [*/] Term | Factor
-# Factor => Funcall | Var | Num | [(] Exp [)]
-# Funcall => Var [(] Exps [)]
-# Exps => Exp [,] Exps | Exp
-# Var => [a-zA-Z_]\w*
-# Num => [-+]?[0-9]+([.][0-9]*)?
-# """)
 
-# def split(text, sep=None, maxsplit = -1):
-#     "Like str.split applied to text, but strips whitespace from each piece"
-#     return [t.strip() for t in text.strip().split(sep, maxsplit) if t]
+
+
+
 # def grammar(description):
 #     """Convert a description to a grammar."""
 #     G = {}
-#     for line in split(description, '\n'):
-#         lhs, rhs = split(line, ' => ', 1)
-#         alternatives = split(rhs, ' | ')
-#         G[lhs] = tuple(map(split, alternatives))
-#     return G
-
-
-# # white space
-# def grammar(description, whitespace=r'\s*'):
-#     G = {' ': whitespace}
-#     description = description.replace('\t', ' ') # no tabs!
 #     for line in split(description, '\n'):
 #         lhs, rhs = split(line, ' => ', 1)
 #         alternatives = split(rhs, ' | ')

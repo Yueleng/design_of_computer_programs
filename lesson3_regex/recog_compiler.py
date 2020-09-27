@@ -1,3 +1,4 @@
+# File 3
 null = frozenset([])
 
 # retern the remainders set.
@@ -25,7 +26,7 @@ def plus(pat): return lambda text: pat(text) | set([t2 for t1 in pat(text) if t1
 # def plus(x): return seq(x, star(x))
 
 def match(pattern, text):
-    "Match pattern agaist start of text; return longest match found or None"
+    "Match pattern against start of text; return longest match found or None"
     remainders = pattern(text)
     if remainders:
         shortest = min(remainders, key=len)
