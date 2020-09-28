@@ -30,24 +30,25 @@ def countcalls(f):
     callcounts[_f] = 0
     return _f
 
-callcounts = {}
+if __name__ == '__main__':
+    callcounts = {}
 
-@countcalls
-def fib(n): return 1 if n <= 1 else fib(n-1) + fib(n-2)
+    @countcalls
+    def fib(n): return 1 if n <= 1 else fib(n-1) + fib(n-2)
 
-print("%s %10s %10s %10s" % ('n', 'fib(n)', 'calls', 'call ratio'))
-for n in range(20):
-    prev_counts = callcounts[fib]
-    value_n = fib(n+1)
-    print("%2s %10s %10s %5.4f" % (n+1, value_n, callcounts[fib], callcounts[fib] / prev_counts if prev_counts != 0 else 1))
-    callcounts[fib] = 0
+    print("%s %10s %10s %10s" % ('n', 'fib(n)', 'calls', 'call ratio'))
+    for n in range(20):
+        prev_counts = callcounts[fib]
+        value_n = fib(n+1)
+        print("%2s %10s %10s %5.4f" % (n+1, value_n, callcounts[fib], callcounts[fib] / prev_counts if prev_counts != 0 else 1))
+        callcounts[fib] = 0
 
-@countcalls
-@memo
-def fib_memo(n): return 1 if n <= 1 else fib_memo(n-1) + fib_memo(n-2)
+    @countcalls
+    @memo
+    def fib_memo(n): return 1 if n <= 1 else fib_memo(n-1) + fib_memo(n-2)
 
-print("%s %10s %10s %10s" % ('n', 'fib_memo(n)', 'calls', 'call ratio'))
-for n in range(20):
-    prev_counts = callcounts[fib_memo]
-    value_n = fib_memo(n+1)
-    print("%2s %10s %10s %5.4f" % (n+1, value_n, callcounts[fib_memo], callcounts[fib_memo] / prev_counts if prev_counts != 0 else 1))
+    print("%s %10s %10s %10s" % ('n', 'fib_memo(n)', 'calls', 'call ratio'))
+    for n in range(20):
+        prev_counts = callcounts[fib_memo]
+        value_n = fib_memo(n+1)
+        print("%2s %10s %10s %5.4f" % (n+1, value_n, callcounts[fib_memo], callcounts[fib_memo] / prev_counts if prev_counts != 0 else 1))

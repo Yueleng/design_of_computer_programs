@@ -16,7 +16,8 @@
 # you as you write the grammar.  Add your code at line 102.
 
 from functools import update_wrapper
-from string import split
+from general_parser import split
+from url_parser import verify
 import re
 
 def grammar(description, whitespace=r'\s*'):
@@ -101,14 +102,14 @@ def parse(start_symbol, text, grammar):
 Fail = (None, None)
 
 JSON = grammar("""
-object => {} | { members }
+object => { } | { members }
 members => pair , members | pair
-pair => string: value
+pair => string : value
 array => [[] []] | [[] elements []]
-elements => value, elements | value
+elements => value , elements | value
 value => string | number | object | array | true | false | null
 string => "[^"]*"
-number => int fact exp | int frac | int exp | int
+number => int frac exp | int frac | int exp | int
 int => -?[1-9][0-9]*
 frac => [.][0-9]+
 exp => [eE][-+]?[0-9]+
@@ -119,11 +120,67 @@ def json_parse(text):
 
 def test():
     assert json_parse('["testing", 1, 2, 3]') == (                      
-                       ['value', ['array', '[', ['elements', ['value', 
-                       ['string', '"testing"']], ',', ['elements', ['value', ['number', 
-                       ['int', '1']]], ',', ['elements', ['value', ['number', 
-                       ['int', '2']]], ',', ['elements', ['value', ['number', 
-                       ['int', '3']]]]]]], ']']], '')
+                    [
+                        'value', 
+                        [
+                            'array', 
+                            '[', 
+                            [
+                                'elements', 
+                                [
+                                    'value', 
+                                    [
+                                        'string', 
+                                        '"testing"'
+                                    ]
+                                ], 
+                                ',', 
+                                [
+                                    'elements', 
+                                    [
+                                        'value', 
+                                        [
+                                            'number', 
+                                            [
+                                                'int', 
+                                                '1'
+                                            ]
+                                        ]
+                                    ], 
+                                    ',', 
+                                    [
+                                        'elements', 
+                                        [
+                                            'value', 
+                                            [
+                                                'number', 
+                                                [
+                                                    'int', 
+                                                    '2'
+                                                ]
+                                            ]
+                                        ], 
+                                        ',', 
+                                        [
+                                            'elements', 
+                                            [
+                                                'value', 
+                                                [
+                                                    'number', 
+                                                    [
+                                                        'int', 
+                                                        '3'
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ], 
+                            ']'
+                        ]
+                    ], ''
+                )
     
     assert json_parse('-123.456e+789') == (
                        ['value', ['number', ['int', '-123'], ['frac', '.456'], ['exp', 'e+789']]], '')
@@ -136,4 +193,8 @@ def test():
                       ['value', ['string', '"rides the rodeo"']]]]]], '}']], '')
     return 'tests pass'
 
-print(test())
+if __name__ == "__main__":
+    verify(JSON)
+    # print(json_parse('["testing", 1, 2, 3]'))
+    # print(json_parse('{"age":21, "state":"CO","occupation":"rides the rodeo"}'))
+    print(test())
