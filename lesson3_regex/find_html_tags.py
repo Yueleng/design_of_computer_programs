@@ -1,3 +1,4 @@
+# File 14
 # ---------------
 # User Instructions
 #
@@ -13,6 +14,17 @@ def findtags(text):
     parms = '(\w+\s*=\s*"[^"]*"\s*)*'
     tags = '(<\s*\w+\s*' + parms + '\s*/?>)'
     return list(map(lambda tpl: tpl[0], re.findall(tags, text)))
+    
+def findtagsContent(text):
+    parms = '(\w+\s*=\s*"[^"]*"\s*)*'
+    tags = '(<\s*\w+\s*' + parms + '\s*/?>)'
+    return list(map(lambda tpl: tpl[1], re.findall(tags, text)))
+
+def findtagsAll(text):
+    parms = '(\w+\s*=\s*"[^"]*"\s*)*'
+    tags = '(<\s*\w+\s*' + parms + '\s*/?>)'
+    return re.findall(tags, text)
+
 testtext1 = """
 My favorite website in the world is probably 
 <a href="www.udacity.com">Udacity</a>. If you want 
@@ -40,6 +52,10 @@ def test():
                                    '<a href="www.udacity.com"target="_blank">']
     assert findtags(testtext2) == []
     assert findtags(testtext3) == ['<         b           >']
+
+    print(findtagsContent(testtext1))
+    print(findtagsAll(testtext1))
+
     return 'tests pass'
 
 print(test())
